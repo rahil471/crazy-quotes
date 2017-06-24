@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 /** New imports below */
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/throw';
+
+import { TheQuoteService } from './the-quote.service'; // import our service
+
 
 @Component({
   selector: 'app-the-quote',
@@ -17,22 +15,16 @@ export class TheQuoteComponent implements OnInit {
     quote: String,
     by: String
   }
-  constructor( private http: Http) {
+  constructor( private thequoteservice: TheQuoteService) { //initialize
   }
 
   ngOnInit() {
-    this.http.get('http://quotes.rest/qod').map((res : Response)=>{
-      return res.json();
-    })
-    .catch((err: Response|any)=>{
-      return Observable.throw(err.json());
-    }).subscribe((data)=>{      
-      this.myQuote.quote = data.contents.quotes[0].quote; //set our myQuote Object
-      this.myQuote.by = data.contents.quotes[0].author; //set our myQuote Object
+    this.thequoteservice.getQuote().subscribe((data)=>{ //use methods in our service
+      this.myQuote.quote = data.quotes[0].quote;
+      this.myQuote.by = data.quotes[0].author;
     }, (err)=>{
-      console.log(err);
-      this.myQuote.quote = "Error in fetching data"; //set our myQuote Object
-      this.myQuote.by = "Error in fetching data"; //set our myQuote Object
+      this.myQuote.quote = err;
+      this.myQuote.by = err;
     });
   }
 
