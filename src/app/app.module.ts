@@ -8,11 +8,13 @@ import { TheQuoteComponent } from './the-quote/the-quote.component';
 
 //services
 import { TheQuoteService } from './the-quote/the-quote.service';
+import { QuoteTileComponent } from './the-quote/quote-tile/quote-tile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TheQuoteComponent
+    TheQuoteComponent,
+    QuoteTileComponent
   ],
   imports: [
     BrowserModule,
